@@ -1,46 +1,27 @@
-import * as Actions from "./actions";
 import initialState from "../store/initialState";
+import * as Actions from "./actions";
 
-export const UserReducer = (state = initialState.user, action) => {
+export const OrdersReducer = (state = initialState.orders, action) => {
 	switch (action.type) {
-		case Actions.SIGN_UP:
+		case Actions.CHECKOUT_ORDER:
 			return {
 				...state,
-				...action.payload.user,
 			};
-		case Actions.SIGN_UP_ERROR:
-			return {
-				...state,
-				errors: action.payload.errors,
-			};
-		case Actions.SIGN_IN:
-			return {
-				...state,
-				...action.payload.user,
-			};
-		case Actions.SIGN_USER_STORE:
-			return {
-				...state,
-				...action.payload.user,
-			};
-		case Actions.SIGN_IN_ERROR:
+		case Actions.CHECKOUT_ORDER_ERROR:
 			return {
 				...state,
 				errors: action.payload.errors,
 			};
-		case Actions.SIGN_OUT:
-			return {
-				errors: {
-					email: null,
-					password: null,
-				},
-			};
-		case Actions.CLEAR_ERRORS:
+		case Actions.CLEAR_CHECKOUT_ORDER_ERROR:
 			return {
 				...state,
 				errors: {
-					email: null,
-					password: null,
+					customer_name: null,
+					customer_phone: null,
+					address: null,
+					pin_code: null,
+					city: null,
+					state: null,
 				},
 			};
 		default:
