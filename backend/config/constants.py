@@ -1,4 +1,4 @@
 PRODUCT_TYPE = (
-    ('male', 'Male'),
-    ('female', 'Female'),
+    ('amazon', 'Amazon'),
+    ('featured', 'Featured'),
 )

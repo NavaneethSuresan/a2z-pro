@@ -34,7 +34,7 @@ const Header = () => {
                 <div class="menu" id="menuoption">
                     <p>Sign in</p>
                     <p>Login</p>
-                    <button onclick="close()">close</button>
+                    <button onClick="close()">close</button>
                 </div>
                 <h1 id="di"></h1>
             </div>

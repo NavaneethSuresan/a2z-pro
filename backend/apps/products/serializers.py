@@ -6,7 +6,7 @@ from apps.categories.serializers import CategorySerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(read_only=True)
-    category = CategorySerializer(many=False, read_only=True)
+    # category = CategorySerializer(many=False, read_only=True)
 
     class Meta:
         model = Product

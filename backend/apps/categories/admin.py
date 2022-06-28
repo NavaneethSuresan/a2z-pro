@@ -7,7 +7,7 @@ from .models import Category
 
 @admin.register(Category)
 class CategoryModel(admin.ModelAdmin):
-    fields = ['name', 'image']
+    fields = ['name']
     list_filter = []
     list_display = fields
     search_fields = ['name']

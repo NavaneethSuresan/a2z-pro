@@ -1,63 +1,67 @@
-export const SIGN_UP = "SIGN_UP";
-export const signUpAction = (user) => {
-    return {
-        type: "SIGN_UP",
-        payload: {
-            user
-        },
-    };
-};
+import API from '../../API';
+import { signInAction, signUpAction, signOutAction } from './actions';
+import { push } from 'connected-react-router';
 
-export const SIGN_UP_ERROR = "SIGN_UP_ERROR";
-export const signUpError = (errors) => {
-    return {
-        type: SIGN_UP_ERROR,
-        payload: {
-            errors
+const api = new API();
+const LOGIN_USER_KEY = 'ATOZPROJECT';
+
+export const fetchUserFromLocalStorage = () => {
+    return async dispatch => {
+        const userJSON = localStorage.getItem(LOGIN_USER_KEY);
+        if (userJSON && userJSON.token !== '') {
+            dispatch(signInAction(JSON.parse(userJSON)));
         }
     };
 };
 
-export const SIGN_IN = "SIGN_IN";
-export const signInAction = (user) => {
-    return {
-        type: SIGN_IN,
-        payload: {
-            user
+export const signUp = (user_name, email, password) => {
+    return async dispatch => {
+        // Validation
+        if (user_name === '' || email === '' || password === '') {
+            alert('Please fill out name, email, and password.');
+            return false;
         }
+
+        return api
+            .signUp(user_name, email, password)
+            .then(user => {
+                dispatch(signUpAction(user));
+                localStorage.setItem(LOGIN_USER_KEY, JSON.stringify(user));
+                dispatch(push('/'));
+            })
+            .catch(error => {
+                alert('Failed to connect API to add a post');
+                console.log(error);
+            });
     };
 };
 
-export const SIGN_USER_STORE = "SIGN_USER_STORE";
-export const signUserStoreAction = (user) => {
-    return {
-        type: SIGN_USER_STORE,
-        payload: {
-            user
+export const signIn = (email, password) => {
+    return async dispatch => {
+        // Validation
+        if (email === '' || password === '') {
+            alert('Please fill out email and password.');
+            return false;
         }
+
+        return api
+            .signIn(email, password)
+            .then(user => {
+                dispatch(signInAction(user));
+                localStorage.setItem(LOGIN_USER_KEY, JSON.stringify(user));
+                dispatch(push('/'));
+            })
+            .catch(error => {
+                alert('Failed to connect API to add a post');
+                console.log(error);
+            });
     };
 };
 
-export const SIGN_IN_ERROR = "SIGN_IN_ERROR";
-export const signInError = (errors) => {
-    return {
-        type: SIGN_IN_ERROR,
-        payload: {
-            errors
-        }
-    };
-};
-
-export const SIGN_OUT = "SIGN_OUT";
-export const signOutAction = () => {
-    return {
-        type: SIGN_OUT
-    };
-};
-
-export const CLEAR_ERRORS = "CLEAR_ERRORS";
-export const clearErrorsAction = () => {
-    return {
-        type: CLEAR_ERRORS
+export const signOut = () => {
+    return async dispatch => {
+        dispatch(signOutAction());
+        localStorage.removeItem(LOGIN_USER_KEY);
+        dispatch(push('/signin'));
     };
 };

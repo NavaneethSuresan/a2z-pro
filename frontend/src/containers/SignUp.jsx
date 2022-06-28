@@ -1,6 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../reducks/users/operations';
 
-function SignUp() {
+import { push } from 'connected-react-router';
+
+const SignUp = () => {
+    const dispatch = useDispatch();
+
+    const closeButton = () => {
+        dispatch(push('/Home'));
+    };
+    const [user_name, setUserName] = useState(''),
+        [email, setEmail] = useState(''),
+        [password, setPassword] = useState('');
+    const inputUserName = event => {
+        setUserName(event.target.value);
+    };
+    const inputEmail = event => {
+        setEmail(event.target.value);
+    };
+    const inputPassword = event => {
+        setPassword(event.target.value);
+    };
+    const signUpButton = () => {
+        dispatch(signUp(user_name, email, password));
+        setUserName('');
+        setEmail('');
+        setPassword('');
+    };
     return (
         <>
             <div class="wrap">
@@ -10,22 +37,24 @@ function SignUp() {
                             Create account and <br /> discover the benfits{' '}
                         </h3>
                     </div>
-                    <h2 class="closebtn">X</h2>
+                    <h2 class="closebtn" onClick={closeButton}>
+                        X
+                    </h2>
                     {/* <!--User Name--> */}
                     <div class="form-group">
-                        <input type="text" class="form-input" placeholder="User Name" />
+                        <input type="text" onChange={inputUserName} class="form-input" placeholder="User Name" />
                     </div>
                     {/* <!--Email Input--> */}
                     <div class="form-group">
-                        <input type="text" class="form-input" placeholder="E-mail" />
+                        <input type="text" onChange={inputEmail} class="form-input" placeholder="E-mail" />
                     </div>
                     {/* <!--Password Input--> */}
                     <div class="form-group">
-                        <input type="password" class="form-input" placeholder="Password" />
+                        <input type="password" onChange={inputPassword} class="form-input" placeholder="Password" />
                     </div>
                     {/* <!--Login Button--> */}
                     <div class="form-group">
-                        <button class="form-button" type="submit">
+                        <button class="form-button" onClick={signUpButton} type="submit">
                             Sign up
                         </button>
                     </div>
@@ -38,6 +67,6 @@ function SignUp() {
             {/* <!--/.wrap--> */}
         </>
     );
-}
+};
 
 export default SignUp;

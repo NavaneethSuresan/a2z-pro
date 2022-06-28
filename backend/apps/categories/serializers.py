@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    image = ImageField(read_only=True)
+    # image = ImageField(read_only=True)
 
     class Meta:
         model = Category

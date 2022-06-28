@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const LOGIN_USER_KEY = 'HIVE_TECHWEAR_LOGIN_USER_KEY';
+export const LOGIN_USER_KEY = 'ATOZPROJECT';
 
 var baseURL;
 if (process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT === 'PRODUCTION') {
@@ -15,50 +15,81 @@ const api = axios.create({
         'Content-Type': 'application/json'
     }
 });
-
 api.interceptors.request.use(
     config => {
-        if (config.requireToken) {
-            const user = localStorage.getItem(LOGIN_USER_KEY) ? JSON.parse(localStorage.getItem(LOGIN_USER_KEY)) : null;
-            config.headers.common['Authorization'] = user.token;
+        if (localStorage.getItem(LOGIN_USER_KEY)) {
+            config.headers.common['Authorization'] = JSON.parse(localStorage.getItem(LOGIN_USER_KEY)).token;
         }
 
         return config;
     },
-    err => console.error(err)
-);
-
-api.interceptors.response.use(
-    response => {
-        return response.data;
-    },
-    error => {
-        console.log('error.response', error);
-        if (error.response.status === 401) {
-            localStorage.removeItem(LOGIN_USER_KEY);
-        }
-
-        return Promise.reject(error);
+    err => {
+        console.error(err);
     }
 );
 
 export default class API {
-    signUp = async signUpBody => {
-        const formData = new FormData();
+    // signUp = async signUpBody => {
+    //     const formData = new FormData();
 
-        for (const key in signUpBody) {
-            formData.append(key, signUpBody[key]);
-        }
+    //     for (const key in signUpBody) {
+    //         formData.append(key, signUpBody[key]);
+    //     }
 
-        return api.post('/users/signup/', formData);
+    //     return api.post('/users/signup/', formData);
+    // };
+
+    // signIn = async signInBody => {
+    //     const formData = new FormData();
+    //     for (const key in signInBody) {
+    //         formData.append(key, signInBody[key]);
+    //     }
+    //     return api.post('/users/signin/', formData);
+    // };
+
+    //////////////////USERS/////////////////////
+
+    signUp = async (user_name, email, password) => {
+        const savedPost = await api
+            .post('/users/signup/', {
+                user_name: user_name,
+                email: email,
+                password: password
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+        return savedPost;
     };
 
-    signIn = async signInBody => {
-        const formData = new FormData();
-        for (const key in signInBody) {
-            formData.append(key, signInBody[key]);
-        }
-        return api.post('/users/signin/', formData);
+    signIn = async (email, password) => {
+        const savedPost = await api
+            .post('/users/signin/', {
+                email: email,
+                password: password
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+        return savedPost;
+    };
+
+    getUsers = async () => {
+        const posts = await api
+            .get('/users/')
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+        return posts;
     };
 
     // Category

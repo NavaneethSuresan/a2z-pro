@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'apps.categories',
     'cloudinary',
     'django_filters',
+
 ]
 
 MIDDLEWARE = [
