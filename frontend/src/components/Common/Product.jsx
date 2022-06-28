@@ -1,6 +1,8 @@
 import React from 'react';
 import AmazonItem from '../Common/AmazonItem';
 import FeaturedItem from './FeaturedItem';
+
+
 export default function Product(props) {
     const { products, carts, labelType } = props;
     if (labelType) {

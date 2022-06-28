@@ -32,11 +32,9 @@ const Home = () => {
 
     const title = type ? (type === 'Amazon' ? Amazon : Featured) : 'Products List';
     const defaultSelect = type ? (type === 'Amazon' ? 'Amazon' : 'Featured') : 'FILTER BY TYPE';
-    const isEmptyProduct = products.results && products.results.length > 0 ? false: true;
-    const amazonProduct = products.results.filter(p => p.type === 'Amazon');
-    const featuredProduct = products.results.filter(p => p.type === 'Featured');
+    
     useEffect(() => {
-        dispatch(fetchProducts({ type }));
+        dispatch(fetchProducts({  }));
         // eslint-disable-next-line
     }, []);
     useEffect(() => {
@@ -44,12 +42,18 @@ const Home = () => {
         dispatch(fetchCarts());
         // eslint-disable-next-line
     }, []);
+    
+    const isEmptyProduct = products && products.results.length > 0 ? true: false;
+    const amazonProduct = products && products.results.filter(p => p.type === 'amazon');
+    const featuredProduct = products && products.results.filter(p => p.type === 'Featured');
     console.log(amazonProduct);
     console.log(featuredProduct);
+    
     return (
         <>
             <Header />
-            <MainImage />
+            hello
+            {/* <MainImage /> */}
             {/* {!isEmptyProduct ? (
                 
                    category.name &&!type ?(
@@ -84,24 +88,28 @@ const Home = () => {
                     }
                 }
             }} */}
-
+            {console.log(isEmptyProduct)}
             {isEmptyProduct ? (
-                type==='Amazon' ? (
+                type==='amazon' ? (
                     <>
+                    hi
                         {title}{' '}
-                        {amazonProduct.results > 0 && (
-                            <AmazonItem labelType={Amazon} products={amazonProduct} carts={carts.results} />
+                        {amazonProduct.results.length > 0 && (
+                            <AmazonItem labelType={Amazon} products={amazonProduct} carts={[]} />
                         )}
                         {/* {maleProduct.length > 0 && (
                             <ProductListCard labelType={Male} products={maleProduct} carts={carts.results} />
                         )} */}
                         {featuredProduct.results > 0 && (
-                            <FeaturedItem labelType={Featured} products={featuredProduct} carts={carts.results} />
+                            
+                            <FeaturedItem labelType={Featured} products={featuredProduct} carts={[]} />
                         )}
+                        {/*carts.results*/}
                     </>
                 ) : (
-                    <Product products={products.results} carts={carts.results} />
+                    products && <Product products={products.results} carts={[]} />
                     // <h1 className="this">This is another trouble</h1>
+                   
                 )
             ) : (
                 <h1 className="emptymessage">Items Unavailable</h1>

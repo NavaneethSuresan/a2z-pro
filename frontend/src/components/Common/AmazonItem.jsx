@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { addCart, removeCart, updateCart } from '../../reducks/cart/operations';
 export default function AmazonItem(props) {
+
     const { id, name, price, image } = props;
     let quantity = props.cart ? props.cart.quantity : 0;
     const cartId = props.cart ? props.cart.id : 0;
@@ -28,6 +29,7 @@ export default function AmazonItem(props) {
     };
     return (
         <div class="page-wrapper">
+            
             <h4 class="todaysdetails">Amazing-Today's Deals</h4>
             <div class="post-wrapper">
                 <div class="post">

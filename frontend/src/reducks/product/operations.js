@@ -5,8 +5,8 @@ const api = new API();
 
 export const fetchProducts = (query = {}, onSuccess = () => {}) => {
     return async dispatch => {
-        return api.getProducts(query).then(products => {
-            dispatch(fetchProductsAction(products));
+        return api.getProducts(query).then(response => {
+            dispatch(fetchProductsAction(response));
             onSuccess();
         });
     };
